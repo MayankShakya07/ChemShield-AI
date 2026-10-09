@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from 'react-router-dom'
 
 function SafetyResults() {
@@ -8,56 +9,35 @@ function SafetyResults() {
 
   if (!chemicalA || !chemicalB) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-900">
+        <Navbar />
 
-        <nav className="border-b border-slate-800">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-
-            <Link to="/" className="flex items-center gap-3">
-
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500 font-bold text-slate-950">
-                C
-              </div>
-
-              <div>
-                <h1 className="text-xl font-bold">
-                  ChemShield AI
-                </h1>
-
-                <p className="text-xs text-slate-500">
-                  Safety Results
-                </p>
-              </div>
-
-            </Link>
-
-          </div>
-        </nav>
-
-        <main className="mx-auto max-w-3xl px-6 py-20 text-center">
-
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-amber-500/10 text-4xl">
+        <main className="mx-auto flex max-w-3xl flex-col items-center px-5 py-20 text-center sm:px-8">
+          <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-amber-200 bg-amber-50 text-4xl">
             ⚠️
           </div>
 
-          <h1 className="mt-6 text-3xl font-bold">
-            No Chemical Analysis Found
+          <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-teal-700">
+            Safety Analysis
+          </p>
+
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            No Analysis Found
           </h1>
 
-          <p className="mt-4 text-slate-400">
-            Please select two chemicals first before viewing the safety
-            analysis.
+          <p className="mt-4 max-w-lg leading-7 text-slate-600">
+            Select two chemicals first to view the demonstration results.
+            Your previous selection may have been lost when the page was
+            refreshed.
           </p>
 
           <Link
             to="/chemicals"
-            className="mt-8 inline-block rounded-xl bg-cyan-500 px-6 py-3 font-semibold text-slate-950 hover:bg-cyan-400"
+            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-teal-700 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-teal-800"
           >
-            Select Chemicals →
+            Select Chemicals <span aria-hidden="true">→</span>
           </Link>
-
         </main>
-
       </div>
     )
   }
@@ -65,460 +45,542 @@ function SafetyResults() {
   const result = getSafetyResult(chemicalA, chemicalB)
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <Navbar showNewAnalysis />
 
-      {/* Navbar */}
-      <nav className="border-b border-slate-800">
-
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-
-          <Link to="/" className="flex items-center gap-3">
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500 font-bold text-slate-950">
-              C
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+        <section className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <div className="flex items-center gap-2 text-sm font-semibold text-teal-700">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-teal-50">
+                <ShieldIcon />
+              </span>
+              Compatibility Analysis
             </div>
 
-            <div>
-              <h1 className="text-xl font-bold">
-                ChemShield AI
-              </h1>
+            <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              Safety Results
+            </h1>
 
-              <p className="text-xs text-slate-500">
-                Safety Analysis
+            <p className="mt-3 max-w-2xl leading-7 text-slate-600">
+              Review the available demonstration information for your selected
+              chemical combination.
+            </p>
+          </div>
+
+          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800">
+            <span className="h-2 w-2 rounded-full bg-amber-500" />
+            Demo data · Not laboratory-verified
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-bold">Selected Chemicals</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                The two chemicals passed from your selection.
+              </p>
+            </div>
+            <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600">
+              2 chemicals
+            </span>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-center">
+            <ChemicalBox chemical={chemicalA} number="01" />
+
+            <div className="flex justify-center">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-teal-100 bg-teal-50 text-xl font-semibold text-teal-700">
+                +
+              </div>
+            </div>
+
+            <ChemicalBox chemical={chemicalB} number="02" />
+          </div>
+        </section>
+
+        <section className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className={`h-1.5 w-full ${result.bar}`} />
+
+          <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[1fr_190px] lg:items-center">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${result.iconBg} ${result.text}`}>
+                  <StatusIcon />
+                </span>
+                <p className="text-sm font-semibold text-slate-500">
+                  Demonstration Result
+                </p>
+              </div>
+
+              <h2 className={`mt-4 text-2xl font-extrabold sm:text-3xl ${result.text}`}>
+                {result.status}
+              </h2>
+
+              <p className="mt-3 max-w-3xl leading-7 text-slate-600">
+                {result.summary}
+              </p>
+
+              <p className="mt-4 text-xs leading-5 text-slate-500">
+                This status is generated by a small set of example rules. It
+                is not a validated compatibility prediction.
               </p>
             </div>
 
-          </Link>
-
-          <Link
-            to="/chemicals"
-            className="text-sm text-slate-400 hover:text-cyan-400"
-          >
-            ← New Analysis
-          </Link>
-
-        </div>
-
-      </nav>
-
-
-      <main className="mx-auto max-w-7xl px-6 py-10">
-
-        {/* Header */}
-        <section>
-
-          <p className="text-sm font-semibold uppercase tracking-widest text-cyan-400">
-            Compatibility Analysis
-          </p>
-
-          <h1 className="mt-2 text-4xl font-bold">
-            Safety Results
-          </h1>
-
-          <p className="mt-3 text-slate-400">
-            Analysis of the selected chemical combination.
-          </p>
-
-        </section>
-
-
-        {/* Chemicals */}
-        <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-
-          <div className="grid gap-5 md:grid-cols-3 md:items-center">
-
-            <ChemicalBox chemical={chemicalA} />
-
-            <div className="text-center">
-
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-xl text-cyan-400">
-                +
-              </div>
-
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center">
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Demo Score
+              </p>
+              <p className={`mt-2 text-4xl font-extrabold ${result.text}`}>
+                {result.score}
+                <span className="text-lg">/100</span>
+              </p>
+              <p className="mt-2 text-xs leading-5 text-slate-500">
+                Illustrative only. Not a measured risk value.
+              </p>
             </div>
-
-            <ChemicalBox chemical={chemicalB} />
-
           </div>
-
         </section>
 
-
-        {/* Main Result */}
-        <section className="mt-8">
-
-          <div className={`rounded-3xl border p-8 ${result.container}`}>
-
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-
-              <div>
-
-                <p className="text-sm font-semibold uppercase tracking-widest opacity-70">
-                  Compatibility Status
-                </p>
-
-                <h2 className={`mt-2 text-4xl font-bold ${result.text}`}>
-                  {result.status}
-                </h2>
-
-                <p className="mt-3 max-w-2xl text-slate-400">
-                  {result.summary}
-                </p>
-
-              </div>
-
-              <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full border-8 border-slate-800 text-center">
-
-                <div>
-
-                  <p className={`text-3xl font-bold ${result.text}`}>
-                    {result.score}
-                  </p>
-
-                  <p className="text-xs text-slate-600">
-                    Risk Score
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* Details */}
-        <section className="mt-8 grid gap-6 lg:grid-cols-2">
-
+        <section className="mt-6 grid gap-5 md:grid-cols-2">
           <InfoCard
             icon="⚠️"
             title="Potential Hazards"
+            subtitle="Risks to consider"
             items={result.hazards}
+            variant="amber"
           />
 
           <InfoCard
             icon="🛡️"
             title="Safety Recommendations"
+            subtitle="Before any laboratory work"
             items={result.recommendations}
+            variant="teal"
           />
 
           <InfoCard
             icon="🥽"
             title="Recommended PPE"
+            subtitle="Subject to official assessment"
             items={result.ppe}
+            variant="blue"
           />
 
           <InfoCard
             icon="🚨"
             title="Emergency Guidance"
+            subtitle="Follow approved procedures"
             items={result.emergency}
+            variant="rose"
           />
-
         </section>
 
+        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
+              <FlaskIcon />
+            </div>
 
-        {/* Reaction */}
-        <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-
-          <p className="text-xs font-semibold uppercase tracking-widest text-cyan-400">
-            Chemistry Overview
-          </p>
-
-          <h2 className="mt-3 text-2xl font-bold">
-            Reaction Information
-          </h2>
-
-          <div className="mt-6 rounded-xl bg-slate-950 p-5">
-
-            <p className="text-center text-lg font-semibold">
-              {result.reaction}
-            </p>
-
+            <div className="min-w-0">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-teal-700">
+                Chemistry Overview
+              </p>
+              <h2 className="mt-2 text-xl font-bold sm:text-2xl">
+                Reaction Information
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                The information below is included for educational
+                demonstration only.
+              </p>
+            </div>
           </div>
 
-          <p className="mt-5 text-sm leading-7 text-slate-400">
+          <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+            <p className="break-words text-center text-base font-semibold leading-8 text-slate-800 sm:text-lg">
+              {result.reaction}
+            </p>
+          </div>
+
+          <p className="mt-5 leading-7 text-slate-600">
             {result.explanation}
           </p>
-
         </section>
 
-
-        {/* Disclaimer */}
-        <section className="mt-8 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5">
-
-          <div className="flex gap-4">
-
-            <div className="text-2xl">
+        <section className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 sm:p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-xl shadow-sm">
               ⚠️
             </div>
 
             <div>
-
-              <h2 className="font-bold text-amber-400">
+              <h2 className="font-bold text-amber-950">
                 Important Safety Notice
               </h2>
-
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                This result is a demonstration of the ChemShield frontend.
-                It must not be treated as laboratory authorization or as a
-                substitute for official safety documentation, institutional
-                procedures, or qualified supervision.
+              <p className="mt-2 text-sm leading-7 text-amber-900/80">
+                ChemShield AI currently displays results from a limited
+                frontend demonstration database. Do not use these results to
+                decide whether to mix, handle, or store chemicals. Check the
+                current Safety Data Sheets (SDS), consult qualified
+                laboratory personnel, and follow your institution's approved
+                procedures. Unknown combinations must not be assumed safe.
               </p>
-
             </div>
-
           </div>
-
         </section>
 
-
-        {/* Actions */}
-        <section className="mt-8 flex flex-wrap gap-3">
-
+        <section className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link
             to="/chemicals"
-            className="rounded-xl bg-cyan-500 px-6 py-3 font-semibold text-slate-950 hover:bg-cyan-400"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-teal-700 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-teal-800"
           >
+            <span aria-hidden="true">+</span>
             Analyze Another Combination
           </Link>
 
           <Link
             to="/virtual-lab"
-            className="rounded-xl border border-slate-700 px-6 py-3 font-semibold text-slate-300 hover:border-cyan-500 hover:text-cyan-400"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:border-teal-300 hover:text-teal-800"
           >
+            <FlaskIcon />
             Open Virtual Lab
           </Link>
 
           <Link
             to="/ai-tutor"
-            className="rounded-xl border border-slate-700 px-6 py-3 font-semibold text-slate-300 hover:border-cyan-500 hover:text-cyan-400"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:border-teal-300 hover:text-teal-800"
           >
-            Ask AI Tutor
+            Ask AI Tutor <span aria-hidden="true">→</span>
           </Link>
-
         </section>
 
+        <footer className="mt-12 border-t border-slate-200 py-6 text-center text-xs leading-6 text-slate-500">
+          ChemShield AI · Educational demonstration only
+          <br />
+          Always verify chemical hazards using authoritative safety
+          documentation.
+        </footer>
       </main>
-
     </div>
   )
 }
 
-
-/* Chemical Box */
-function ChemicalBox({ chemical }) {
+function Navbar({ showNewAnalysis = false }) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-center">
+    <nav className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <Link to="/" className="flex min-w-0 items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-700 text-lg font-extrabold text-white shadow-sm">
+            C
+          </div>
+          <div className="min-w-0">
+            <span className="block truncate text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">
+              ChemShield AI
+            </span>
+            <span className="block text-xs text-slate-500">
+              Chemical Safety Assistant
+            </span>
+          </div>
+        </Link>
 
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-800 font-bold">
-        {chemical.formula}
+        {showNewAnalysis && (
+          <Link
+            to="/chemicals"
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-teal-300 hover:text-teal-800 sm:px-4"
+          >
+            <span aria-hidden="true">←</span>
+            <span>New Analysis</span>
+          </Link>
+        )}
+      </div>
+    </nav>
+  )
+}
+
+function ChemicalBox({ chemical, number }) {
+  return (
+    <div className="flex min-w-0 items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-teal-100 bg-white text-center text-sm font-extrabold text-teal-800">
+        {chemical.formula || 'N/A'}
       </div>
 
-      <h3 className="mt-4 font-bold">
-        {chemical.name}
-      </h3>
-
-      <p className="mt-1 text-sm text-slate-500">
-        {chemical.type}
-      </p>
-
+      <div className="min-w-0">
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          Chemical {number}
+        </p>
+        <h3 className="mt-1 break-words font-bold text-slate-900">
+          {chemical.name}
+        </h3>
+        <p className="mt-1 text-sm text-slate-500">
+          {chemical.type || 'Type not specified'}
+        </p>
+      </div>
     </div>
   )
 }
 
+function InfoCard({ icon, title, subtitle, items, variant }) {
+  const styles = {
+    amber: {
+      icon: 'bg-amber-50',
+      border: 'border-amber-100',
+      bullet: 'bg-amber-500',
+    },
+    teal: {
+      icon: 'bg-teal-50',
+      border: 'border-teal-100',
+      bullet: 'bg-teal-600',
+    },
+    blue: {
+      icon: 'bg-blue-50',
+      border: 'border-blue-100',
+      bullet: 'bg-blue-600',
+    },
+    rose: {
+      icon: 'bg-rose-50',
+      border: 'border-rose-100',
+      bullet: 'bg-rose-600',
+    },
+  }
 
-/* Information Card */
-function InfoCard({ icon, title, items }) {
+  const style = styles[variant] || styles.teal
+
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-
-      <div className="flex items-center gap-3">
-
-        <span className="text-2xl">
+    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md sm:p-6">
+      <div className="flex items-start gap-3">
+        <div
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-xl ${style.icon}`}
+        >
           {icon}
-        </span>
+        </div>
 
-        <h2 className="text-xl font-bold">
-          {title}
-        </h2>
-
+        <div className="min-w-0">
+          <h2 className="font-bold text-slate-900">{title}</h2>
+          <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
+        </div>
       </div>
 
       <ul className="mt-5 space-y-3">
-
         {items.map((item, index) => (
-
-          <li
-            key={index}
-            className="flex gap-3 text-sm leading-6 text-slate-400"
-          >
-            <span className="text-cyan-400">
-              •
-            </span>
-
-            <span>
-              {item}
-            </span>
-
+          <li key={`${title}-${index}`} className="flex items-start gap-3">
+            <span
+              className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${style.bullet}`}
+            />
+            <span className="text-sm leading-6 text-slate-600">{item}</span>
           </li>
-
         ))}
-
       </ul>
-
-    </div>
+    </article>
   )
 }
 
+function ShieldIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <path
+        d="M12 3 19 6v5c0 4.6-2.9 8-7 10-4.1-2-7-5.4-7-10V6l7-3Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m9 12 2 2 4-4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
-/* Demo Safety Engine */
+function StatusIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <path
+        d="M12 8v4m0 4h.01M10.3 3.9 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3l-7.5-13.1a2 2 0 0 0-3.4 0Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function FlaskIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <path
+        d="M9 3h6m-5 0v7l-5.5 8.2A1.8 1.8 0 0 0 6 21h12a1.8 1.8 0 0 0 1.5-2.8L14 10V3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M7.5 16h9" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+/* Frontend demonstration rules only — not a validated safety engine. */
 function getSafetyResult(chemicalA, chemicalB) {
   const ids = [chemicalA.id, chemicalB.id].sort()
 
-  const hclNaoh =
-    ids.includes('hcl') && ids.includes('naoh')
+  const hasPair = (idA, idB) =>
+    ids.includes(idA) && ids.includes(idB)
 
-  const h2so4Naoh =
-    ids.includes('h2so4') && ids.includes('naoh')
-
-  const aceticNaoh =
-    ids.includes('ch3cooh') && ids.includes('naoh')
-
-  if (hclNaoh) {
+  if (hasPair('hcl', 'naoh')) {
     return {
       status: 'Controlled Reaction',
       score: '58',
-      text: 'text-amber-400',
-      container: 'border-amber-500/20 bg-amber-500/5',
+      text: 'text-amber-700',
+      bar: 'bg-amber-500',
+      iconBg: 'bg-amber-50',
       summary:
-        'The selected chemicals represent an acid-base neutralization combination. Appropriate laboratory controls and supervision are required.',
+        'This example pair represents acid-base neutralization. The demo cannot assess actual laboratory conditions, concentrations, or the suitability of a procedure.',
       hazards: [
-        'Acid and base contact can produce heat.',
-        'Concentrated solutions can cause chemical burns.',
-        'Improper handling may cause splashing.',
+        'Acid-base neutralization can release heat.',
+        'Concentrated solutions can cause serious chemical burns.',
+        'Splashes and contact are potential exposure hazards.',
       ],
       recommendations: [
-        'Follow the approved laboratory procedure.',
-        'Use appropriate PPE and controlled quantities.',
-        'Work under qualified supervision.',
+        'Consult the current Safety Data Sheets for both chemicals.',
+        'Follow an approved procedure and institutional controls.',
+        'Do not attempt a physical experiment based on this demo result.',
       ],
       ppe: [
-        'Safety goggles',
-        'Suitable chemical-resistant gloves',
-        'Laboratory coat',
+        'PPE must be selected using the chemical SDS and risk assessment.',
+        'Laboratory eye and body protection may be required by the approved procedure.',
+        'Glove material must be suitable for the specific chemicals.',
       ],
       emergency: [
-        'Follow your laboratory emergency procedure.',
-        'For exposure, use the appropriate emergency washing facilities.',
-        'Seek qualified medical assistance when required.',
+        'Follow the facility emergency procedure.',
+        'Use the designated emergency washing facilities after exposure.',
+        'Contact trained emergency or medical personnel when required.',
       ],
       reaction: 'HCl + NaOH → NaCl + H₂O',
       explanation:
-        'Hydrochloric acid and sodium hydroxide can undergo a neutralization reaction producing sodium chloride and water. Neutralization can release heat, so laboratory procedures should be followed carefully.',
+        'Hydrochloric acid and sodium hydroxide can undergo acid-base neutralization to form sodium chloride and water. The process can release heat. Actual risk depends on concentration, quantities, conditions, and the applicable laboratory assessment.',
     }
   }
 
-  if (h2so4Naoh) {
+  if (hasPair('h2so4', 'naoh')) {
     return {
       status: 'Higher Caution',
       score: '72',
-      text: 'text-orange-400',
-      container: 'border-orange-500/20 bg-orange-500/5',
+      text: 'text-orange-700',
+      bar: 'bg-orange-500',
+      iconBg: 'bg-orange-50',
       summary:
-        'This combination involves a strong acid and strong base. The physical conditions and concentrations are important when evaluating laboratory risk.',
+        'This example pair involves a strong acid and a strong base. The demo cannot determine the risk for a real procedure or particular concentrations.',
       hazards: [
         'Strong acids and bases can cause serious chemical burns.',
-        'Neutralization may release significant heat.',
-        'Improper mixing can create splashing hazards.',
+        'Neutralization can release heat.',
+        'Improper handling can create splashing and exposure hazards.',
       ],
       recommendations: [
-        'Follow approved laboratory procedures.',
-        'Use appropriate PPE.',
-        'Use proper supervision and controlled conditions.',
+        'Consult the current Safety Data Sheets for both chemicals.',
+        'Do not use this frontend result as permission to combine chemicals.',
+        'Refer any proposed laboratory work to qualified personnel.',
       ],
       ppe: [
-        'Safety goggles',
-        'Suitable gloves',
-        'Laboratory coat',
+        'Determine protective equipment from the SDS and formal risk assessment.',
+        'Use only PPE specified by the approved laboratory procedure.',
+        'Check chemical compatibility of any selected protective equipment.',
       ],
       emergency: [
         'Follow the laboratory emergency procedure.',
-        'Use appropriate emergency washing facilities after exposure.',
-        'Seek qualified assistance for significant exposure.',
+        'Use the designated emergency washing facilities after exposure.',
+        'Seek qualified medical assistance for significant exposure.',
       ],
-      reaction: 'H₂SO₄ + NaOH → Sodium sulfate + H₂O',
+      reaction: 'H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O',
       explanation:
-        'Sulfuric acid can react with sodium hydroxide in an acid-base neutralization process. The exact reaction products depend on the proportions and conditions.',
+        'Sulfuric acid can react with sodium hydroxide through acid-base neutralization. The equation shown represents formation of sodium sulfate and water. The real conditions and hazards require an authoritative assessment.',
     }
   }
 
-  if (aceticNaoh) {
+  if (hasPair('ch3cooh', 'naoh')) {
     return {
       status: 'Controlled Reaction',
       score: '42',
-      text: 'text-yellow-400',
-      container: 'border-yellow-500/20 bg-yellow-500/5',
+      text: 'text-amber-700',
+      bar: 'bg-amber-500',
+      iconBg: 'bg-amber-50',
       summary:
-        'Acetic acid and sodium hydroxide can undergo an acid-base neutralization reaction.',
+        'This example pair represents neutralization involving acetic acid and sodium hydroxide. The score and status are illustrative demo values, not a measured safety rating.',
       hazards: [
-        'Chemical contact may cause irritation or burns depending on concentration.',
+        'Hazards depend on the concentration and form of each chemical.',
         'The reaction can release heat.',
-        'Improper handling may cause splashing.',
+        'Improper handling may cause splashes or exposure.',
       ],
       recommendations: [
-        'Follow the approved experiment procedure.',
-        'Use appropriate PPE.',
-        'Work under laboratory supervision.',
+        'Review the current Safety Data Sheets.',
+        'Follow approved procedures and qualified supervision.',
+        'Do not infer real-world compatibility from this demonstration.',
       ],
       ppe: [
-        'Safety goggles',
-        'Suitable gloves',
-        'Laboratory coat',
+        'Choose PPE according to the chemical SDS and risk assessment.',
+        'Use eye and body protection required by the approved procedure.',
+        'Confirm glove suitability for the chemicals involved.',
       ],
       emergency: [
-        'Follow your laboratory emergency procedure.',
-        'Use appropriate emergency washing facilities after exposure.',
-        'Seek qualified assistance if necessary.',
+        'Follow the approved laboratory emergency procedure.',
+        'Use designated emergency washing facilities after exposure.',
+        'Seek qualified assistance when necessary.',
       ],
       reaction: 'CH₃COOH + NaOH → CH₃COONa + H₂O',
       explanation:
-        'Acetic acid reacts with sodium hydroxide through an acid-base neutralization process, producing sodium acetate and water.',
+        'Acetic acid can react with sodium hydroxide to form sodium acetate and water. Actual hazards and controls depend on the chemicals as supplied and the conditions of any proposed laboratory procedure.',
     }
   }
 
   return {
     status: 'Review Required',
-    score: '35',
-    text: 'text-cyan-400',
-    container: 'border-cyan-500/20 bg-cyan-500/5',
+    score: 'N/A',
+    text: 'text-teal-800',
+    bar: 'bg-teal-600',
+    iconBg: 'bg-teal-50',
     summary:
-      'No detailed compatibility rule is currently stored in this frontend demonstration database for this combination.',
+      'No specific compatibility rule is stored for this pair in the current frontend demo. This means the combination has not been assessed by this demo; it does not mean the chemicals are compatible or safe.',
     hazards: [
-      'The combination requires chemical-specific evaluation.',
-      'Unknown interactions should not be assumed to be safe.',
-      'Consult official safety information before laboratory handling.',
+      'Chemical-specific interactions have not been evaluated by this demo.',
+      'Unknown combinations must not be assumed safe.',
+      'Physical and chemical conditions may affect the hazards.',
     ],
     recommendations: [
-      'Do not rely on the demonstration result for physical experiments.',
-      'Check authoritative chemical safety documentation.',
-      'Follow institutional laboratory procedures.',
+      'Consult authoritative safety documentation for both chemicals.',
+      'Have qualified laboratory personnel review the proposed use.',
+      'Do not combine chemicals based on this demonstration result.',
     ],
     ppe: [
-      'Safety goggles',
-      'Appropriate gloves',
-      'Laboratory coat',
+      'Determine PPE from the relevant Safety Data Sheets.',
+      'Use a task-specific risk assessment to select protection.',
+      'Do not treat generic PPE examples as a complete assessment.',
     ],
     emergency: [
-      'Follow the laboratory emergency procedure.',
-      'Consult the relevant safety documentation.',
-      'Contact qualified laboratory personnel when necessary.',
+      'Follow the applicable laboratory emergency procedure.',
+      'Consult the relevant Safety Data Sheets.',
+      'Contact qualified laboratory or emergency personnel when needed.',
     ],
-    reaction: 'Compatibility rule not available in demo database',
+    reaction: 'No compatibility rule available in the demo database',
     explanation:
-      'The frontend currently contains only a small demonstration set of compatibility rules. The complete safety engine and chemical database will later be connected through the backend.',
+      'The current frontend contains only a small set of example rules. It does not include a complete chemical database or a validated safety engine. A missing rule is not evidence that a combination is safe.',
   }
 }
 

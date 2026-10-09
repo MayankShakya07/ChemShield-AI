@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -11,276 +12,265 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault()
 
-    if (!email || !password) {
+    if (!email.trim() || !password) {
       alert('Please enter your email and password.')
       return
     }
 
-    // Frontend demo login
+    // Frontend demonstration login only.
     navigate('/dashboard')
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* Navbar */}
-      <nav className="border-b border-slate-800">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-
+      <nav className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center gap-3">
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500 font-bold text-slate-950">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-700 font-bold text-white shadow-sm">
               C
             </div>
 
             <div>
-              <h1 className="text-xl font-bold">
+              <h1 className="text-lg font-bold tracking-tight sm:text-xl">
                 ChemShield AI
               </h1>
-
               <p className="text-xs text-slate-500">
                 Laboratory Safety Platform
               </p>
             </div>
-
           </Link>
 
           <Link
             to="/"
-            className="text-sm text-slate-400 hover:text-cyan-400"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-teal-700"
           >
-            ← Back to Home
+            <span aria-hidden="true">← </span>
+            <span className="hidden sm:inline">Back to Home</span>
+            <span className="sm:hidden">Home</span>
           </Link>
-
         </div>
       </nav>
 
+      {/* Login area */}
+      <main className="flex min-h-[calc(100vh-73px)] items-center justify-center px-4 py-8 sm:px-6 sm:py-12">
+        <div className="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl lg:grid-cols-2">
+          {/* Welcome panel */}
+          <section className="relative hidden overflow-hidden bg-teal-800 p-10 text-white lg:block xl:p-12">
+            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10" />
+            <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full border border-white/10" />
+            <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-teal-700/70" />
 
-      {/* Login Area */}
-      <main className="flex min-h-[calc(100vh-81px)] items-center justify-center px-6 py-12">
-
-        <div className="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 shadow-2xl lg:grid-cols-2">
-
-          {/* Left Side */}
-          <div className="hidden bg-cyan-500 p-10 text-slate-950 lg:block">
-
-            <div className="flex h-full flex-col justify-between">
-
+            <div className="relative flex h-full flex-col justify-between gap-12">
               <div>
-
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-2xl font-bold text-cyan-400">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-2xl font-bold">
                   C
                 </div>
 
-                <h2 className="mt-10 text-4xl font-bold leading-tight">
+                <p className="mt-10 text-xs font-semibold uppercase tracking-[0.2em] text-teal-100">
+                  Your laboratory companion
+                </p>
+
+                <h2 className="mt-4 text-4xl font-bold leading-tight tracking-tight">
                   Welcome back to ChemShield.
                 </h2>
 
-                <p className="mt-5 leading-7 text-slate-800">
-                  Access your laboratory dashboard, chemical safety analysis,
-                  virtual experiments and AI-powered chemistry tools.
+                <p className="mt-5 max-w-md text-sm leading-7 text-teal-50/90">
+                  Access your laboratory dashboard, explore chemical
+                  compatibility, learn through virtual experiments, and
+                  prepare for your chemistry studies.
                 </p>
-
               </div>
 
-
-              <div className="mt-12 space-y-4">
-
+              <div className="space-y-4">
                 <LoginFeature
                   icon="🧪"
                   text="Chemical Compatibility"
                 />
-
                 <LoginFeature
                   icon="🛡️"
-                  text="Laboratory Safety Analysis"
+                  text="Laboratory Safety Tools"
                 />
-
                 <LoginFeature
                   icon="🤖"
                   text="AI Chemistry Tutor"
                 />
-
                 <LoginFeature
                   icon="📄"
                   text="Experiment Reports"
                 />
-
               </div>
 
-            </div>
-
-          </div>
-
-
-          {/* Right Side */}
-          <div className="p-8 sm:p-10">
-
-            <div className="mx-auto max-w-md">
-
-              <p className="text-sm font-semibold uppercase tracking-widest text-cyan-400">
-                Student Login
+              <p className="text-xs text-teal-100/70">
+                Learn chemistry with safety in mind.
               </p>
+            </div>
+          </section>
 
-              <h1 className="mt-3 text-3xl font-bold">
+          {/* Login form */}
+          <section className="flex items-center p-5 sm:p-10 lg:p-12">
+            <div className="mx-auto w-full max-w-md">
+              <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-2xl lg:hidden">
+                🧪
+              </div>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-teal-100 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-700">
+                <span className="h-2 w-2 rounded-full bg-teal-600" />
+                STUDENT PORTAL
+              </div>
+
+              <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                 Sign in to your account
               </h1>
 
-              <p className="mt-3 text-sm leading-6 text-slate-400">
+              <p className="mt-3 text-sm leading-6 text-slate-600">
                 Enter your details to continue to the ChemShield dashboard.
               </p>
 
-
-              {/* Form */}
-              <form
-                onSubmit={handleLogin}
-                className="mt-8 space-y-5"
-              >
-
+              <form onSubmit={handleLogin} className="mt-8 space-y-5">
                 {/* Email */}
                 <div>
-
-                  <label className="text-sm font-medium text-slate-300">
-                    Email Address
+                  <label
+                    htmlFor="login-email"
+                    className="mb-2 block text-sm font-semibold text-slate-700"
+                  >
+                    Email address
                   </label>
 
                   <input
+                    id="login-email"
                     type="email"
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="student@example.com"
-                    className="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none placeholder:text-slate-600 focus:border-cyan-500"
+                    required
+                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-4 focus:ring-teal-600/10"
                   />
-
                 </div>
-
 
                 {/* Password */}
                 <div>
-
-                  <div className="flex items-center justify-between">
-
-                    <label className="text-sm font-medium text-slate-300">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <label
+                      htmlFor="login-password"
+                      className="text-sm font-semibold text-slate-700"
+                    >
                       Password
                     </label>
 
                     <button
                       type="button"
-                      className="text-xs text-cyan-400 hover:text-cyan-300"
                       onClick={() =>
-                        alert('Password recovery will be connected to the backend.')
+                        alert(
+                          'Password recovery is not available yet. It will require backend authentication.'
+                        )
                       }
+                      className="text-xs font-medium text-teal-700 transition hover:text-teal-900"
                     >
                       Forgot password?
                     </button>
-
                   </div>
 
-                  <div className="relative mt-2">
-
+                  <div className="relative">
                     <input
+                      id="login-password"
                       type={showPassword ? 'text' : 'password'}
+                      autoComplete="current-password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter your password"
-                      className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 pr-20 text-white outline-none placeholder:text-slate-600 focus:border-cyan-500"
+                      required
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 pr-20 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-4 focus:ring-teal-600/10"
                     />
 
                     <button
                       type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-cyan-400"
+                      onClick={() => setShowPassword((previous) => !previous)}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg px-2 py-1 text-xs font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
                     >
                       {showPassword ? 'Hide' : 'Show'}
                     </button>
-
                   </div>
-
                 </div>
 
-
-                {/* Remember */}
-                <div className="flex items-center gap-2">
-
+                {/* Remember me */}
+                <div className="flex items-center gap-2.5">
                   <input
                     type="checkbox"
                     id="remember"
-                    className="h-4 w-4 accent-cyan-500"
+                    className="h-4 w-4 rounded border-slate-300 accent-teal-700 focus:ring-teal-600"
                   />
 
                   <label
                     htmlFor="remember"
-                    className="text-sm text-slate-500"
+                    className="text-sm text-slate-600"
                   >
                     Remember me
                   </label>
-
                 </div>
 
-
-                {/* Login Button */}
+                {/* Submit */}
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-cyan-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-teal-700 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-600/20"
                 >
-                  Sign In →
+                  Sign In <span aria-hidden="true">→</span>
                 </button>
-
               </form>
 
+              {/* Demo notice */}
+              <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-lg" aria-hidden="true">
+                    ℹ️
+                  </span>
 
-              {/* Demo Notice */}
-              <div className="mt-6 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
-
-                <p className="text-xs leading-5 text-amber-400">
-                  Demo Mode: This frontend login currently accepts any
-                  non-empty email and password. Real authentication will be
-                  connected to the FastAPI backend later.
-                </p>
-
+                  <div>
+                    <p className="text-sm font-semibold text-amber-900">
+                      Demonstration mode
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-amber-800">
+                      This is a frontend-only login. Any non-empty email and
+                      password can proceed to the dashboard. Real
+                      authentication has not been connected.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-
-              {/* Back */}
-              <p className="mt-8 text-center text-sm text-slate-500">
-
-                Don't want to login?
-
+              {/* Guest navigation */}
+              <p className="mt-7 text-center text-sm text-slate-600">
+                Just exploring?
                 <Link
                   to="/dashboard"
-                  className="ml-2 font-semibold text-cyan-400 hover:text-cyan-300"
+                  className="ml-1.5 font-semibold text-teal-700 transition hover:text-teal-900"
                 >
                   Continue as guest
                 </Link>
-
               </p>
 
+              <p className="mt-8 text-center text-xs text-slate-400">
+                ChemShield AI · Laboratory Safety Platform
+              </p>
             </div>
-
-          </div>
-
+          </section>
         </div>
-
       </main>
-
     </div>
   )
 }
 
-
-/* Login Feature */
+/* Welcome panel feature */
 function LoginFeature({ icon, text }) {
   return (
-    <div className="flex items-center gap-4">
-
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-950 text-lg">
+    <div className="flex items-center gap-3">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-lg">
         {icon}
       </div>
 
-      <p className="font-semibold">
-        {text}
-      </p>
-
+      <p className="text-sm font-medium text-white">{text}</p>
     </div>
   )
 }
